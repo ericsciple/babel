@@ -6,13 +6,6 @@ cache:
 
 os: linux
 
-node_js:
-  # We test the latest version on circleci
-  - "11"
-  - "10"
-  - "8"
-  - "6"
-
 env:
   global:
     - PATH=$HOME/.yarn/bin:$PATH
@@ -46,12 +39,6 @@ matrix:
       - JOB=test
       # https://travis-ci.community/t/build-doesnt-finish-after-completing-tests/288/9
       - YARN_GPG=no
-    - node_js: "node"
-      env: JOB=lint
-    - node_js: "node"
-      env: JOB=babel-parser-flow-tests
-    - node_js: "node"
-      env: JOB=babel-parser-test262-tests
 
 notifications:
   slack:
