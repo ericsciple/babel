@@ -1,3 +1,4 @@
+import { File } from "@babel/core";
 import traverse from "@babel/traverse";
 import * as t from "@babel/types";
 import helpers from "./helpers";
@@ -29,7 +30,7 @@ function getHelperMetadata(file) {
   const importPaths = [];
   const importBindingsReferences = [];
 
-  traverse(file, {
+  const dependencyVisitor = {
     ImportDeclaration(child) {
       const name = child.node.source.value;
       if (!helpers[name]) {
@@ -72,9 +73,9 @@ function getHelperMetadata(file) {
 
       child.skip();
     },
-  });
+  };
 
-  traverse(file, {
+  const referenceVisitor = {
     Program(path) {
       const bindings = path.scope.getAllBindings();
 
@@ -111,7 +112,10 @@ function getHelperMetadata(file) {
         exportBindingAssignments.push(makePath(child));
       }
     },
-  });
+  };
+
+  traverse(file.ast, dependencyVisitor, file.scope);
+  traverse(file.ast, referenceVisitor, file.scope);
 
   if (!exportPath) throw new Error("Helpers must default-export something.");
 
@@ -170,7 +174,7 @@ function permuteHelperAST(file, metadata, id, localBindings, getDependency) {
     toRename[exportName] = id.name;
   }
 
-  traverse(file, {
+  const visitor = {
     Program(path) {
       // We need to compute these in advance because removing nodes would
       // invalidate the paths.
@@ -223,7 +227,8 @@ function permuteHelperAST(file, metadata, id, localBindings, getDependency) {
       // actually doing the traversal.
       path.stop();
     },
-  });
+  };
+  traverse(file.ast, visitor, file.scope);
 }
 
 const helperData = Object.create(null);
@@ -238,7 +243,13 @@ function loadHelper(name) {
     }
 
     const fn = () => {
-      return t.file(helper.ast());
+      const ast = t.file(helper.ast());
+      return new File(
+        {
+          filename: `babel-helper://${name}`,
+        },
+        { ast },
+      );
     };
 
     const metadata = getHelperMetadata(fn());
@@ -249,7 +260,7 @@ function loadHelper(name) {
         permuteHelperAST(file, metadata, id, localBindings, getDependency);
 
         return {
-          nodes: file.program.body,
+          nodes: file.path.node.body,
           globals: metadata.globals,
         };
       },
