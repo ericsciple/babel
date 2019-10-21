@@ -1,4 +1,3 @@
-import { File } from "@babel/core";
 import traverse from "@babel/traverse";
 import * as t from "@babel/types";
 import helpers from "./helpers";
@@ -14,6 +13,7 @@ function makePath(path) {
   return parts.reverse().join(".");
 }
 
+let fileClass = undefined;
 /**
  * Given a file AST for a given helper, get a bunch of metadata about it so that Babel can quickly render
  * the helper is whatever context it is needed in.
@@ -243,13 +243,16 @@ function loadHelper(name) {
     }
 
     const fn = () => {
-      const ast = t.file(helper.ast());
-      return new File(
-        {
-          filename: `babel-helper://${name}`,
-        },
-        { ast },
-      );
+      const file = { ast: t.file(helper.ast()) };
+      if (fileClass) {
+        return new fileClass(
+          {
+            filename: `babel-helper://${name}`,
+          },
+          file,
+        );
+      }
+      return file;
     };
 
     const metadata = getHelperMetadata(fn());
@@ -260,7 +263,7 @@ function loadHelper(name) {
         permuteHelperAST(file, metadata, id, localBindings, getDependency);
 
         return {
-          nodes: file.path.node.body,
+          nodes: file.ast.program.body,
           globals: metadata.globals,
         };
       },
@@ -291,7 +294,12 @@ export function getDependencies(name: string): $ReadOnlyArray<string> {
   return Array.from(loadHelper(name).dependencies.values());
 }
 
-export function ensure(name: string) {
+export function ensure(name: string, newFileClass?) {
+  if (!fileClass) {
+    // optional fileClass used to wrap helper snippets into File instance,
+    // offering `path.hub` support during traversal
+    fileClass = newFileClass;
+  }
   loadHelper(name);
 }
 
