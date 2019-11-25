@@ -19,6 +19,7 @@ const rollupJson = require("@rollup/plugin-json");
 const rollupNodeBuiltins = require("rollup-plugin-node-builtins");
 const rollupNodeGlobals = require("rollup-plugin-node-globals");
 const rollupNodeResolve = require("rollup-plugin-node-resolve");
+const rollupPnpResolve = require("rollup-plugin-pnp-resolve");
 const rollupReplace = require("rollup-plugin-replace");
 const { terser: rollupTerser } = require("rollup-plugin-terser");
 
@@ -164,6 +165,7 @@ function buildRollup(packages) {
                 babelrc: false,
                 extends: "./babel.config.js",
               }),
+              rollupPnpResolve(),
               rollupNodeResolve({
                 browser: nodeResolveBrowser,
                 preferBuiltins: true,
