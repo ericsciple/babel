@@ -174,7 +174,7 @@ if (program.eval || program.print) {
         if (parsedOption === undefined) {
           return;
         }
-        const optionName = parsedOption.name();
+        const optionName = parsedOption.attributeName();
         const parsedArg = program[optionName];
         if (optionName === "require" || (parsedArg && parsedArg !== true)) {
           ignoreNext = true;
