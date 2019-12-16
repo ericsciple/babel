@@ -14,7 +14,7 @@ EMPTY :=
 SPACE := $(EMPTY) $(EMPTY)
 COMMA_SEPARATED_SOURCES = $(subst $(SPACE),$(COMMA),$(SOURCES))
 
-YARN := yarn --silent
+YARN := yarn
 NODE := $(YARN) node
 
 
