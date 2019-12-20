@@ -4,6 +4,8 @@ on: [pull_request]
 
 jobs:
   build:
+    env:
+      NODE_OPTIONS: --max-old-space-size=2048
     runs-on: ubuntu-latest
     strategy:
       matrix:
