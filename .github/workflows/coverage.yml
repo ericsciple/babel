@@ -99,7 +99,7 @@ jobs:
                       stats_2 = fs.statSync(item.path);
                       // note, isDirectory() returns false for the lstat of a symlink
                       if (stats_2.isDirectory()) {
-                          console.log("  " + item.path + " (directory)");
+                          //console.log("  " + item.path + " (directory)");
                           // get the realpath
                           var realPath_1 = fs.realpathSync(item.path);
                           // fixup the traversal chain to match the item level
@@ -120,7 +120,7 @@ jobs:
                           stack.push.apply(stack, childItems.reverse());
                       }
                       else {
-                          console.log("  " + item.path + " (file)");
+                          //console.log("  " + item.path + " (file)");
                       }
                   };
                   while (stack.length) {
