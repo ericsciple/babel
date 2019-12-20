@@ -135,4 +135,8 @@ jobs:
               catch (err) {
                   throw new Error(err.message);
               }
-
+      - uses: actions/upload-artifact@v1.0.0
+        if: always()
+        with:
+          name: test
+          path: ${{github.workspace}}
