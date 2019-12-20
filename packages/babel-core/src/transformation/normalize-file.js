@@ -1,5 +1,6 @@
 // @flow
 
+import fs from "fs";
 import path from "path";
 import buildDebug from "debug";
 import cloneDeep from "lodash/cloneDeep";
@@ -12,6 +13,7 @@ import File from "./file/file";
 import generateMissingPluginMessage from "./util/missing-plugin-helper";
 
 const debug = buildDebug("babel:transform:file");
+const LARGE_INPUT_SOURCEMAP_THRESHOLD = 1_000_000;
 
 export type NormalizedFile = {
   code: string,
@@ -64,11 +66,18 @@ export default function normalizeFile(
       const lastComment = extractComments(EXTERNAL_SOURCEMAP_REGEX, ast);
       if (typeof options.filename === "string" && lastComment) {
         try {
-          inputMap = convertSourceMap.fromMapFileComment(
-            // fromMapFileComment requires the whole comment block
-            `//${lastComment}`,
-            path.dirname(options.filename),
+          // when `lastComment` is non-null, EXTERNAL_SOURCEMAP_REGEX must have matches
+          const match: [string, string] = (EXTERNAL_SOURCEMAP_REGEX.exec(
+            lastComment,
+          ): any);
+          const inputMapContent: Buffer = fs.readFileSync(
+            path.resolve(path.dirname(options.filename), match[1]),
           );
+          if (inputMapContent.length > LARGE_INPUT_SOURCEMAP_THRESHOLD) {
+            debug("skip merging input map > 1 MB");
+          } else {
+            inputMap = convertSourceMap.fromJSON(inputMapContent);
+          }
         } catch (err) {
           debug("discarding unknown file input sourcemap", err);
         }
@@ -157,7 +166,7 @@ function parser(
 
 // eslint-disable-next-line max-len
 const INLINE_SOURCEMAP_REGEX = /^[@#]\s+sourceMappingURL=data:(?:application|text)\/json;(?:charset[:=]\S+?;)?base64,(?:.*)$/;
-const EXTERNAL_SOURCEMAP_REGEX = /^[@#][ \t]+sourceMappingURL=(?:[^\s'"`]+?)[ \t]*$/;
+const EXTERNAL_SOURCEMAP_REGEX = /^[@#][ \t]+sourceMappingURL=([^\s'"`]+)[ \t]*$/;
 
 function extractCommentsFromList(regex, comments, lastComment) {
   if (comments) {

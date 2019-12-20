@@ -20,6 +20,7 @@ script:
   - if [ "$JOB" = "test" ]; then make -j test-ci; fi
   - if [ "$JOB" = "lint" ]; then make -j code-quality-ci; fi
   - if [ "$JOB" = "babel-parser-flow-tests" ]; then make -j test-flow-ci; fi
+  - if [ "$JOB" = "babel-parser-typescript-tests" ]; then make -j test-typescript-ci; fi
   - if [ "$JOB" = "babel-parser-test262-tests" ]; then make -j test-test262-ci; fi
 
 matrix:
@@ -36,12 +37,18 @@ matrix:
         - JOB=test
         # https://travis-ci.community/t/build-doesnt-finish-after-completing-tests/288/9
         - YARN_GPG=no
+      cache:
+        yarn: true
+        directories:
+          - $HOME/AppData/Local/Temp/chocolatey
     # Continue node_js matrix
     - node_js: "6"
     - node_js: "10"
     - node_js: "8"
     - node_js: "node"
       env: JOB=babel-parser-flow-tests
+    - node_js: "node"
+      env: JOB=babel-parser-typescript-tests
     - node_js: "node"
       env: JOB=babel-parser-test262-tests
 

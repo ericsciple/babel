@@ -19,6 +19,7 @@
 // [opp]: http://en.wikipedia.org/wiki/Operator-precedence_parser
 
 import { types as tt, type TokenType } from "../tokenizer/types";
+import { types as ct } from "../tokenizer/context";
 import * as N from "../types";
 import LValParser from "./lval";
 import {
@@ -39,12 +40,6 @@ import {
   SCOPE_SUPER,
   SCOPE_PROGRAM,
 } from "../util/scopeflags";
-
-const unwrapParenthesizedExpression = node => {
-  return node.type === "ParenthesizedExpression"
-    ? unwrapParenthesizedExpression(node.expression)
-    : node;
-};
 
 export default class ExpressionParser extends LValParser {
   // Forward-declaration: defined in statement.js
@@ -212,26 +207,6 @@ export default class ExpressionParser extends LValParser {
 
       this.checkLVal(left, undefined, undefined, "assignment expression");
 
-      const maybePattern = unwrapParenthesizedExpression(left);
-
-      let patternErrorMsg;
-      if (maybePattern.type === "ObjectPattern") {
-        patternErrorMsg = "`({a}) = 0` use `({a} = 0)`";
-      } else if (maybePattern.type === "ArrayPattern") {
-        patternErrorMsg = "`([a]) = 0` use `([a] = 0)`";
-      }
-
-      if (
-        patternErrorMsg &&
-        ((left.extra && left.extra.parenthesized) ||
-          left.type === "ParenthesizedExpression")
-      ) {
-        this.raise(
-          maybePattern.start,
-          `You're trying to assign to a parenthesized expression, eg. instead of ${patternErrorMsg}`,
-        );
-      }
-
       this.next();
       node.right = this.parseMaybeAssign(noIn);
       return this.finishNode(node, "AssignmentExpression");
@@ -384,7 +359,7 @@ export default class ExpressionParser extends LValParser {
          * so for ?? operator we need to check in this case the right expression to have parenthesis
          * second case a && b ?? c
          * here a && b => This is considered as a logical expression in the ast tree
-         * c => identifer
+         * c => identifier
          * so now here for ?? operator we need to check the left expression to have parenthesis
          * if the parenthesis is missing we raise an error and throw it
          */
@@ -783,7 +758,7 @@ export default class ExpressionParser extends LValParser {
   finishCallExpression<T: N.CallExpression | N.OptionalCallExpression>(
     node: T,
     optional: boolean,
-  ): T {
+  ): N.Expression {
     if (node.callee.type === "Import") {
       if (node.arguments.length !== 1) {
         this.raise(node.start, "import() requires exactly one argument");
@@ -970,6 +945,19 @@ export default class ExpressionParser extends LValParser {
           this.match(tt._function) &&
           !this.canInsertSemicolon()
         ) {
+          const last = this.state.context.length - 1;
+          if (this.state.context[last] !== ct.functionStatement) {
+            // Since "async" is an identifier and normally identifiers
+            // can't be followed by expression, the tokenizer assumes
+            // that "function" starts a statement.
+            // Fixing it in the tokenizer would mean tracking not only the
+            // previous token ("async"), but also the one before to know
+            // its beforeExpr value.
+            // It's easier and more efficient to adjust the context here.
+            throw new Error("Internal error");
+          }
+          this.state.context[last] = ct.functionExpression;
+
           this.next();
           return this.parseFunction(node, undefined, true);
         } else if (
@@ -2194,7 +2182,11 @@ export default class ExpressionParser extends LValParser {
       }
     }
 
-    if (this.state.inClassProperty && word === "arguments") {
+    if (
+      this.scope.inClass &&
+      !this.scope.inNonArrowFunction &&
+      word === "arguments"
+    ) {
       this.raise(
         startLoc,
         "'arguments' is not allowed in class field initializer",

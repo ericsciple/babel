@@ -21,6 +21,7 @@ import {
   BIND_TS_AMBIENT,
   BIND_TS_NAMESPACE,
   BIND_CLASS,
+  BIND_LEXICAL,
 } from "../../util/scopeflags";
 import TypeScriptScopeHandler from "./scope";
 import * as charCodes from "charcodes";
@@ -617,7 +618,12 @@ export default (superClass: Class<Parser>): Class<Parser> =>
         const restNode: N.TsRestType = this.startNode();
         this.next(); // skips ellipsis
         restNode.typeAnnotation = this.tsParseType();
-        this.checkCommaAfterRest(charCodes.rightSquareBracket);
+        if (
+          this.match(tt.comma) &&
+          this.lookaheadCharCode() !== charCodes.rightSquareBracket
+        ) {
+          this.raiseRestNotLast(this.state.start);
+        }
         return this.finishNode(restNode, "TSRestType");
       }
 
@@ -680,6 +686,15 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       return this.finishNode(node, "TSLiteralType");
     }
 
+    tsParseThisTypeOrThisTypePredicate(): N.TsThisType | N.TsTypePredicate {
+      const thisKeyword = this.tsParseThisTypeNode();
+      if (this.isContextual("is") && !this.hasPrecedingLineBreak()) {
+        return this.tsParseThisTypePredicate(thisKeyword);
+      } else {
+        return thisKeyword;
+      }
+    }
+
     tsParseNonArrayType(): N.TsType {
       switch (this.state.type) {
         case tt.name:
@@ -715,14 +730,8 @@ export default (superClass: Class<Parser>): Class<Parser> =>
             return this.finishNode(node, "TSLiteralType");
           }
           break;
-        case tt._this: {
-          const thisKeyword = this.tsParseThisTypeNode();
-          if (this.isContextual("is") && !this.hasPrecedingLineBreak()) {
-            return this.tsParseThisTypePredicate(thisKeyword);
-          } else {
-            return thisKeyword;
-          }
-        }
+        case tt._this:
+          return this.tsParseThisTypeOrThisTypePredicate();
         case tt._typeof:
           return this.tsParseTypeQuery();
         case tt._import:
@@ -937,6 +946,24 @@ export default (superClass: Class<Parser>): Class<Parser> =>
           this.tsParseTypePredicateAsserts.bind(this),
         );
 
+        if (asserts && this.match(tt._this)) {
+          // When asserts is false, thisKeyword is handled by tsParseNonArrayType
+          // : asserts this is type
+          let thisTypePredicate = this.tsParseThisTypeOrThisTypePredicate();
+          // if it turns out to be a `TSThisType`, wrap it with `TSTypePredicate`
+          // : asserts this
+          if (thisTypePredicate.type === "TSThisType") {
+            const node: N.TsTypePredicate = this.startNodeAtNode(t);
+            node.parameterName = (thisTypePredicate: N.TsThisType);
+            node.asserts = true;
+            thisTypePredicate = this.finishNode(node, "TSTypePredicate");
+          } else {
+            (thisTypePredicate: N.TsTypePredicate).asserts = true;
+          }
+          t.typeAnnotation = thisTypePredicate;
+          return this.finishNode(t, "TSTypeAnnotation");
+        }
+
         const typePredicateVariable =
           this.tsIsIdentifier() &&
           this.tsTryParse(this.tsParseTypePredicatePrefix.bind(this));
@@ -947,15 +974,15 @@ export default (superClass: Class<Parser>): Class<Parser> =>
             return this.tsParseTypeAnnotation(/* eatColon */ false, t);
           }
 
+          const node: N.TsTypePredicate = this.startNodeAtNode(t);
           // : asserts foo
-          const node = this.startNodeAtNode(t);
           node.parameterName = this.parseIdentifier();
           node.asserts = asserts;
           t.typeAnnotation = this.finishNode(node, "TSTypePredicate");
           return this.finishNode(t, "TSTypeAnnotation");
         }
 
-        // : foo is type
+        // : asserts foo is type
         const type = this.tsParseTypeAnnotation(/* eatColon */ false);
         const node = this.startNodeAtNode(t);
         node.parameterName = typePredicateVariable;
@@ -989,17 +1016,24 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     }
 
     tsParseTypePredicateAsserts(): boolean {
-      if (!this.tsIsIdentifier()) {
+      if (
+        !this.match(tt.name) ||
+        this.state.value !== "asserts" ||
+        this.hasPrecedingLineBreak()
+      ) {
+        return false;
+      }
+      const containsEsc = this.state.containsEsc;
+      this.next();
+      if (!this.match(tt.name) && !this.match(tt._this)) {
         return false;
       }
 
-      const id = this.parseIdentifier();
-      if (
-        id.name !== "asserts" ||
-        this.hasPrecedingLineBreak() ||
-        !this.tsIsIdentifier()
-      ) {
-        return false;
+      if (containsEsc) {
+        this.raise(
+          this.state.lastTokStart,
+          "Escape sequence in keyword asserts",
+        );
       }
 
       return true;
@@ -1264,6 +1298,12 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     ): N.TsImportEqualsDeclaration {
       node.isExport = isExport || false;
       node.id = this.parseIdentifier();
+      this.checkLVal(
+        node.id,
+        BIND_LEXICAL,
+        undefined,
+        "import equals declaration",
+      );
       this.expect(tt.eq);
       node.moduleReference = this.tsParseModuleReference();
       this.semicolon();
@@ -2483,7 +2523,10 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       }
     }
 
-    toAssignableList(exprList: N.Expression[]): $ReadOnlyArray<N.Pattern> {
+    toAssignableList(
+      exprList: N.Expression[],
+      isBinding: ?boolean,
+    ): $ReadOnlyArray<N.Pattern> {
       for (let i = 0; i < exprList.length; i++) {
         const expr = exprList[i];
         if (!expr) continue;
@@ -2493,10 +2536,14 @@ export default (superClass: Class<Parser>): Class<Parser> =>
             break;
           case "TSAsExpression":
           case "TSTypeAssertion":
-            this.raise(
-              expr.start,
-              "Unexpected type cast in parameter position.",
-            );
+            if (!isBinding) {
+              exprList[i] = this.typeCastToParameter(expr);
+            } else {
+              this.raise(
+                expr.start,
+                "Unexpected type cast in parameter position.",
+              );
+            }
             break;
         }
       }

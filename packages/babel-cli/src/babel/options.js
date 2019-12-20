@@ -73,7 +73,10 @@ commander.option(
   "Do not include superfluous whitespace characters and line terminators.",
   booleanify,
 );
-commander.option("--minified", "save as much bytes when printing [true|false]");
+commander.option(
+  "--minified [true|false]",
+  "Save as many bytes when printing.",
+);
 commander.option(
   "--auxiliary-comment-before [string]",
   "Print a comment before any injected non-user code.",
@@ -160,6 +163,10 @@ commander.option(
 
 commander.version(pkg.version + " (@babel/core " + version + ")");
 commander.usage("[options] <files ...>");
+// register an empty action handler so that commander.js can throw on
+// unknown options _after_ args
+// see https://github.com/tj/commander.js/issues/561#issuecomment-522209408
+commander.action(() => {});
 
 export type CmdOptions = {
   babelOptions: Object,
@@ -313,7 +320,10 @@ function booleanify(val: any): boolean | any {
   return val;
 }
 
-function collect(value, previousValue): Array<string> {
+function collect(
+  value: string | any,
+  previousValue: Array<string>,
+): Array<string> {
   // If the user passed the option with no value, like "babel file.js --presets", do nothing.
   if (typeof value !== "string") return previousValue;
 

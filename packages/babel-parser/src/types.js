@@ -96,7 +96,8 @@ export type Literal =
   | NullLiteral
   | StringLiteral
   | BooleanLiteral
-  | NumericLiteral;
+  | NumericLiteral
+  | BigIntLiteral;
 
 export type RegExpLiteral = NodeBase & {
   type: "RegExpLiteral",
@@ -1012,7 +1013,7 @@ export type FlowInterfaceType = NodeBase & {
   body: FlowObjectTypeAnnotation,
 };
 
-// estree
+// ESTree
 
 export type EstreeProperty = NodeBase & {
   type: "Property",
@@ -1036,6 +1037,11 @@ export type EstreeMethodDefinition = NodeBase & {
   kind?: "get" | "set" | "method",
 
   variance?: ?FlowVariance,
+};
+
+export type EstreeImportExpression = NodeBase & {
+  type: "ImportExpression",
+  source: Expression,
 };
 
 // === === === ===
@@ -1227,6 +1233,7 @@ export type TsTypePredicate = TsTypeBase & {
   type: "TSTypePredicate",
   parameterName: Identifier | TsThisType,
   typeAnnotation: TsTypeAnnotation,
+  asserts?: boolean,
 };
 
 // `typeof` operator

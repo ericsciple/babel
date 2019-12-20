@@ -1,9 +1,13 @@
+/* global BigInt */
+
 import { multiple as getFixtures } from "@babel/helper-fixtures";
 import { codeFrameColumns } from "@babel/code-frame";
 import fs from "fs";
 import path from "path";
 
 const rootPath = path.join(__dirname, "../../../..");
+
+const serialized = "$$ babel internal serialized type";
 
 class FixtureError extends Error {
   constructor(previousError, fixturePath, code) {
@@ -61,7 +65,7 @@ export function runFixtureTests(fixturesPath, parseFunction) {
                   /^.*Got error message: /,
                   "",
                 );
-                fs.writeFileSync(fn, JSON.stringify(task.options, null, "  "));
+                fs.writeFileSync(fn, JSON.stringify(task.options, null, 2));
               }
             }
 
@@ -107,19 +111,10 @@ export function runThrowTestsWithEstree(fixturesPath, parseFunction) {
 }
 
 function save(test, ast) {
-  // Ensure that RegExp and Errors are serialized as strings
-  forceToString(RegExp, () =>
-    forceToString(Error, () =>
-      fs.writeFileSync(test.expect.loc, JSON.stringify(ast, null, "  ")),
-    ),
+  fs.writeFileSync(
+    test.expect.loc,
+    JSON.stringify(ast, (k, v) => serialize(v), 2),
   );
-}
-
-function forceToString(obj, cb) {
-  const { toJSON } = obj.prototype;
-  obj.prototype.toJSON = obj.prototype.toString;
-  cb();
-  obj.prototype.toJSON = toJSON;
 }
 
 function runTest(test, parseFunction) {
@@ -143,7 +138,7 @@ function runTest(test, parseFunction) {
           const fn = path.dirname(test.expect.loc) + "/options.json";
           test.options = test.options || {};
           test.options.throws = err.message;
-          fs.writeFileSync(fn, JSON.stringify(test.options, null, "  "));
+          fs.writeFileSync(fn, JSON.stringify(test.options, null, 2));
           return;
         }
 
@@ -172,11 +167,11 @@ function runTest(test, parseFunction) {
       const fn = path.dirname(test.expect.loc) + "/options.json";
       test.options = test.options || {};
       delete test.options.throws;
-      const contents = JSON.stringify(test.options, null, "  ");
+      const contents = JSON.stringify(test.options, null, 2);
       if (contents === "{}") {
         fs.unlinkSync(fn);
       } else {
-        fs.writeFileSync(fn, JSON.stringify(test.options, null, "  "));
+        fs.writeFileSync(fn, JSON.stringify(test.options, null, 2));
       }
       test.expect.loc += "on";
       return save(test, ast);
@@ -197,9 +192,43 @@ function runTest(test, parseFunction) {
   }
 }
 
+function serialize(value) {
+  if (typeof value === "bigint") {
+    return {
+      [serialized]: "BigInt",
+      value: value.toString(),
+    };
+  } else if (value instanceof RegExp) {
+    return {
+      [serialized]: "RegExp",
+      source: value.source,
+      flags: value.flags,
+    };
+  } else if (value instanceof Error) {
+    // Errors are serialized to a simple string, because are used frequently
+    return value.toString();
+  }
+  return value;
+}
+
 function ppJSON(v) {
-  v = v instanceof RegExp || v instanceof Error ? v.toString() : v;
-  return JSON.stringify(v, null, 2);
+  if (typeof v === "bigint" || v instanceof Error || v instanceof RegExp) {
+    return ppJSON(serialize(v));
+  }
+
+  if (v && typeof v === "object" && v[serialized]) {
+    switch (v[serialized]) {
+      case "BigInt":
+        return typeof BigInt === "undefined" ? "null" : v.value + "n";
+      case "RegExp":
+        return `/${v.source}/${v.flags}`;
+    }
+  } else if (typeof v === "string" && /^[A-Z][a-z]+Error: /.test(v)) {
+    // Errors are serialized to a simple string, because are used frequently
+    return v;
+  }
+
+  return JSON.stringify(v, (k, v) => serialize(v), 2);
 }
 
 function addPath(str, pt) {
@@ -212,10 +241,10 @@ function addPath(str, pt) {
 
 function misMatch(exp, act) {
   if (
-    exp instanceof RegExp ||
     act instanceof RegExp ||
-    exp instanceof Error ||
-    act instanceof Error
+    act instanceof Error ||
+    typeof act === "bigint" ||
+    (exp && typeof exp === "object" && exp[serialized])
   ) {
     const left = ppJSON(exp);
     const right = ppJSON(act);
