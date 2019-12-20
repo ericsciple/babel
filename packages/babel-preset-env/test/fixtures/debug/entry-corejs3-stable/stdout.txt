@@ -1,254 +1,256 @@
 @babel/preset-env: `DEBUG` option
 
 Using targets:
-{}
+{
+  "android": "77",
+  "chrome": "49",
+  "edge": "17",
+  "firefox": "68",
+  "ie": "11",
+  "ios": "12.2",
+  "opera": "63",
+  "safari": "5.1",
+  "samsung": "9.2"
+}
 
 Using modules transform: auto
 
 Using plugins:
-  transform-template-literals {}
-  transform-literals {}
-  transform-function-name {}
-  transform-arrow-functions {}
-  transform-block-scoped-functions {}
-  transform-classes {}
-  transform-object-super {}
-  transform-shorthand-properties {}
-  transform-duplicate-keys {}
-  transform-computed-properties {}
-  transform-for-of {}
-  transform-sticky-regex {}
-  transform-dotall-regex {}
-  transform-unicode-regex {}
-  transform-spread {}
-  transform-parameters {}
-  transform-destructuring {}
-  transform-block-scoping {}
-  transform-typeof-symbol {}
-  transform-new-target {}
-  transform-regenerator {}
-  transform-exponentiation-operator {}
-  transform-async-to-generator {}
-  proposal-async-generator-functions {}
-  proposal-object-rest-spread {}
-  proposal-unicode-property-regex {}
-  proposal-json-strings {}
-  proposal-optional-catch-binding {}
-  transform-named-capturing-groups-regex {}
-  transform-member-expression-literals {}
-  transform-property-literals {}
-  transform-reserved-words {}
-  transform-modules-commonjs {}
-  proposal-dynamic-import {}
+  transform-template-literals { "android":"77", "ie":"11", "ios":"12.2", "safari":"5.1" }
+  transform-literals { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-function-name { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  transform-arrow-functions { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-block-scoped-functions { "android":"77", "safari":"5.1" }
+  transform-classes { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-object-super { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-shorthand-properties { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-duplicate-keys { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-computed-properties { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-for-of { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  transform-sticky-regex { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-dotall-regex { "android":"77", "chrome":"49", "edge":"17", "firefox":"68", "ie":"11", "safari":"5.1" }
+  transform-unicode-regex { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  transform-spread { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-parameters { "android":"77", "edge":"17", "ie":"11", "safari":"5.1" }
+  transform-destructuring { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  transform-block-scoping { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-typeof-symbol { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-new-target { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-regenerator { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  transform-exponentiation-operator { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  transform-async-to-generator { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  proposal-async-generator-functions { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  proposal-object-rest-spread { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  proposal-unicode-property-regex { "android":"77", "chrome":"49", "edge":"17", "firefox":"68", "ie":"11", "safari":"5.1" }
+  proposal-json-strings { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  proposal-optional-catch-binding { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  transform-named-capturing-groups-regex { "android":"77", "chrome":"49", "edge":"17", "firefox":"68", "ie":"11", "safari":"5.1" }
+  transform-modules-commonjs { "android":"77", "chrome":"49", "edge":"17", "firefox":"68", "ie":"11", "ios":"12.2", "opera":"63", "safari":"5.1", "samsung":"9.2" }
+  proposal-dynamic-import { "android":"77", "chrome":"49", "edge":"17", "firefox":"68", "ie":"11", "ios":"12.2", "opera":"63", "safari":"5.1", "samsung":"9.2" }
 
 Using polyfills with `entry` option:
 
 [<CWD>/packages/babel-preset-env/test/fixtures/debug/entry-corejs3-stable/input.mjs] Replaced core-js entries with the following polyfills:
-  es.symbol {}
-  es.symbol.description {}
-  es.symbol.async-iterator {}
-  es.symbol.has-instance {}
-  es.symbol.is-concat-spreadable {}
-  es.symbol.iterator {}
-  es.symbol.match {}
-  es.symbol.replace {}
-  es.symbol.search {}
-  es.symbol.species {}
-  es.symbol.split {}
-  es.symbol.to-primitive {}
-  es.symbol.to-string-tag {}
-  es.symbol.unscopables {}
-  es.array.concat {}
-  es.array.copy-within {}
-  es.array.every {}
-  es.array.fill {}
-  es.array.filter {}
-  es.array.find {}
-  es.array.find-index {}
-  es.array.flat {}
-  es.array.flat-map {}
-  es.array.for-each {}
-  es.array.from {}
-  es.array.includes {}
-  es.array.index-of {}
-  es.array.is-array {}
-  es.array.iterator {}
-  es.array.join {}
-  es.array.last-index-of {}
-  es.array.map {}
-  es.array.of {}
-  es.array.reduce {}
-  es.array.reduce-right {}
-  es.array.reverse {}
-  es.array.slice {}
-  es.array.some {}
-  es.array.sort {}
-  es.array.species {}
-  es.array.splice {}
-  es.array.unscopables.flat {}
-  es.array.unscopables.flat-map {}
-  es.array-buffer.constructor {}
-  es.array-buffer.is-view {}
-  es.array-buffer.slice {}
-  es.data-view {}
-  es.date.now {}
-  es.date.to-iso-string {}
-  es.date.to-json {}
-  es.date.to-primitive {}
-  es.date.to-string {}
-  es.function.bind {}
-  es.function.has-instance {}
-  es.function.name {}
-  es.json.to-string-tag {}
-  es.map {}
-  es.math.acosh {}
-  es.math.asinh {}
-  es.math.atanh {}
-  es.math.cbrt {}
-  es.math.clz32 {}
-  es.math.cosh {}
-  es.math.expm1 {}
-  es.math.fround {}
-  es.math.hypot {}
-  es.math.imul {}
-  es.math.log10 {}
-  es.math.log1p {}
-  es.math.log2 {}
-  es.math.sign {}
-  es.math.sinh {}
-  es.math.tanh {}
-  es.math.to-string-tag {}
-  es.math.trunc {}
-  es.number.constructor {}
-  es.number.epsilon {}
-  es.number.is-finite {}
-  es.number.is-integer {}
-  es.number.is-nan {}
-  es.number.is-safe-integer {}
-  es.number.max-safe-integer {}
-  es.number.min-safe-integer {}
-  es.number.parse-float {}
-  es.number.parse-int {}
-  es.number.to-fixed {}
-  es.number.to-precision {}
-  es.object.assign {}
-  es.object.create {}
-  es.object.define-getter {}
-  es.object.define-properties {}
-  es.object.define-property {}
-  es.object.define-setter {}
-  es.object.entries {}
-  es.object.freeze {}
-  es.object.from-entries {}
-  es.object.get-own-property-descriptor {}
-  es.object.get-own-property-descriptors {}
-  es.object.get-own-property-names {}
-  es.object.get-prototype-of {}
-  es.object.is {}
-  es.object.is-extensible {}
-  es.object.is-frozen {}
-  es.object.is-sealed {}
-  es.object.keys {}
-  es.object.lookup-getter {}
-  es.object.lookup-setter {}
-  es.object.prevent-extensions {}
-  es.object.seal {}
-  es.object.set-prototype-of {}
-  es.object.to-string {}
-  es.object.values {}
-  es.parse-float {}
-  es.parse-int {}
-  es.promise {}
-  es.promise.finally {}
-  es.reflect.apply {}
-  es.reflect.construct {}
-  es.reflect.define-property {}
-  es.reflect.delete-property {}
-  es.reflect.get {}
-  es.reflect.get-own-property-descriptor {}
-  es.reflect.get-prototype-of {}
-  es.reflect.has {}
-  es.reflect.is-extensible {}
-  es.reflect.own-keys {}
-  es.reflect.prevent-extensions {}
-  es.reflect.set {}
-  es.reflect.set-prototype-of {}
-  es.regexp.constructor {}
-  es.regexp.exec {}
-  es.regexp.flags {}
-  es.regexp.to-string {}
-  es.set {}
-  es.string.code-point-at {}
-  es.string.ends-with {}
-  es.string.from-code-point {}
-  es.string.includes {}
-  es.string.iterator {}
-  es.string.match {}
-  es.string.pad-end {}
-  es.string.pad-start {}
-  es.string.raw {}
-  es.string.repeat {}
-  es.string.replace {}
-  es.string.search {}
-  es.string.split {}
-  es.string.starts-with {}
-  es.string.trim {}
-  es.string.trim-end {}
-  es.string.trim-start {}
-  es.string.anchor {}
-  es.string.big {}
-  es.string.blink {}
-  es.string.bold {}
-  es.string.fixed {}
-  es.string.fontcolor {}
-  es.string.fontsize {}
-  es.string.italics {}
-  es.string.link {}
-  es.string.small {}
-  es.string.strike {}
-  es.string.sub {}
-  es.string.sup {}
-  es.typed-array.float32-array {}
-  es.typed-array.float64-array {}
-  es.typed-array.int8-array {}
-  es.typed-array.int16-array {}
-  es.typed-array.int32-array {}
-  es.typed-array.uint8-array {}
-  es.typed-array.uint8-clamped-array {}
-  es.typed-array.uint16-array {}
-  es.typed-array.uint32-array {}
-  es.typed-array.copy-within {}
-  es.typed-array.every {}
-  es.typed-array.fill {}
-  es.typed-array.filter {}
-  es.typed-array.find {}
-  es.typed-array.find-index {}
-  es.typed-array.for-each {}
-  es.typed-array.from {}
-  es.typed-array.includes {}
-  es.typed-array.index-of {}
-  es.typed-array.iterator {}
-  es.typed-array.join {}
-  es.typed-array.last-index-of {}
-  es.typed-array.map {}
-  es.typed-array.of {}
-  es.typed-array.reduce {}
-  es.typed-array.reduce-right {}
-  es.typed-array.reverse {}
-  es.typed-array.set {}
-  es.typed-array.slice {}
-  es.typed-array.some {}
-  es.typed-array.sort {}
-  es.typed-array.subarray {}
-  es.typed-array.to-locale-string {}
-  es.typed-array.to-string {}
-  es.weak-map {}
-  es.weak-set {}
-  web.dom-collections.for-each {}
-  web.dom-collections.iterator {}
-  web.immediate {}
-  web.queue-microtask {}
-  web.timers {}
-  web.url {}
-  web.url.to-json {}
-  web.url-search-params {}
+  es.symbol { "android":"77", "ie":"11", "safari":"5.1" }
+  es.symbol.description { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1", "samsung":"9.2" }
+  es.symbol.async-iterator { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.symbol.has-instance { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.symbol.is-concat-spreadable { "android":"77", "ie":"11", "safari":"5.1" }
+  es.symbol.iterator { "android":"77", "ie":"11", "safari":"5.1" }
+  es.symbol.match { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.symbol.replace { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.symbol.search { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.symbol.species { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.symbol.split { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.symbol.to-primitive { "android":"77", "ie":"11", "safari":"5.1" }
+  es.symbol.to-string-tag { "android":"77", "ie":"11", "safari":"5.1" }
+  es.symbol.unscopables { "android":"77", "ie":"11", "safari":"5.1" }
+  es.array.concat { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.array.copy-within { "android":"77", "ie":"11", "safari":"5.1" }
+  es.array.every { "safari":"5.1" }
+  es.array.fill { "android":"77", "ie":"11", "safari":"5.1" }
+  es.array.filter { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.array.find { "android":"77", "ie":"11", "safari":"5.1" }
+  es.array.find-index { "android":"77", "ie":"11", "safari":"5.1" }
+  es.array.flat { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1", "samsung":"9.2" }
+  es.array.flat-map { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1", "samsung":"9.2" }
+  es.array.for-each { "safari":"5.1" }
+  es.array.from { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.array.includes { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.array.index-of { "android":"77", "chrome":"49", "safari":"5.1" }
+  es.array.iterator { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.array.join { "ie":"11", "safari":"5.1" }
+  es.array.last-index-of { "android":"77", "chrome":"49", "safari":"5.1" }
+  es.array.map { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.array.of { "android":"77", "ie":"11", "safari":"5.1" }
+  es.array.reduce { "safari":"5.1" }
+  es.array.reduce-right { "safari":"5.1" }
+  es.array.reverse { "safari":"5.1" }
+  es.array.slice { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.array.some { "safari":"5.1" }
+  es.array.sort { "android":"77", "chrome":"49", "safari":"5.1" }
+  es.array.species { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.array.splice { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.array.unscopables.flat { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "ios":"12.2", "safari":"5.1", "samsung":"9.2" }
+  es.array.unscopables.flat-map { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "ios":"12.2", "safari":"5.1", "samsung":"9.2" }
+  es.array-buffer.constructor { "ie":"11", "safari":"5.1" }
+  es.array-buffer.is-view { "safari":"5.1" }
+  es.array-buffer.slice { "safari":"5.1" }
+  es.data-view { "safari":"5.1" }
+  es.date.to-iso-string { "safari":"5.1" }
+  es.date.to-json { "safari":"5.1" }
+  es.date.to-primitive { "android":"77", "ie":"11", "safari":"5.1" }
+  es.date.to-string { "safari":"5.1" }
+  es.function.has-instance { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.function.name { "ie":"11", "safari":"5.1" }
+  es.json.to-string-tag { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.map { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.math.acosh { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.math.asinh { "android":"77", "ie":"11", "safari":"5.1" }
+  es.math.atanh { "android":"77", "ie":"11", "safari":"5.1" }
+  es.math.cbrt { "android":"77", "ie":"11", "safari":"5.1" }
+  es.math.clz32 { "android":"77", "ie":"11", "safari":"5.1" }
+  es.math.cosh { "android":"77", "ie":"11", "safari":"5.1" }
+  es.math.expm1 { "android":"77", "ie":"11", "safari":"5.1" }
+  es.math.fround { "android":"77", "ie":"11", "safari":"5.1" }
+  es.math.hypot { "android":"77", "chrome":"49", "ie":"11", "opera":"63", "safari":"5.1", "samsung":"9.2" }
+  es.math.imul { "ie":"11", "safari":"5.1" }
+  es.math.log10 { "android":"77", "ie":"11", "safari":"5.1" }
+  es.math.log1p { "android":"77", "ie":"11", "safari":"5.1" }
+  es.math.log2 { "android":"77", "ie":"11", "safari":"5.1" }
+  es.math.sign { "android":"77", "ie":"11", "safari":"5.1" }
+  es.math.sinh { "android":"77", "ie":"11", "safari":"5.1" }
+  es.math.tanh { "android":"77", "ie":"11", "safari":"5.1" }
+  es.math.to-string-tag { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.math.trunc { "android":"77", "ie":"11", "safari":"5.1" }
+  es.number.constructor { "android":"77", "ie":"11", "safari":"5.1" }
+  es.number.epsilon { "android":"77", "ie":"11", "safari":"5.1" }
+  es.number.is-finite { "ie":"11", "safari":"5.1" }
+  es.number.is-integer { "android":"77", "ie":"11", "safari":"5.1" }
+  es.number.is-nan { "ie":"11", "safari":"5.1" }
+  es.number.is-safe-integer { "android":"77", "ie":"11", "safari":"5.1" }
+  es.number.max-safe-integer { "android":"77", "ie":"11", "safari":"5.1" }
+  es.number.min-safe-integer { "android":"77", "ie":"11", "safari":"5.1" }
+  es.number.parse-float { "android":"77", "ie":"11", "safari":"5.1" }
+  es.number.parse-int { "android":"77", "ie":"11", "safari":"5.1" }
+  es.number.to-fixed { "edge":"17", "ie":"11", "safari":"5.1" }
+  es.number.to-precision { "safari":"5.1" }
+  es.object.assign { "android":"77", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.object.define-getter { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.object.define-properties { "safari":"5.1" }
+  es.object.define-property { "safari":"5.1" }
+  es.object.define-setter { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.object.entries { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.object.freeze { "android":"77", "ie":"11", "safari":"5.1" }
+  es.object.from-entries { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1", "samsung":"9.2" }
+  es.object.get-own-property-descriptor { "android":"77", "ie":"11", "safari":"5.1" }
+  es.object.get-own-property-descriptors { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.object.get-own-property-names { "android":"77", "ie":"11", "safari":"5.1" }
+  es.object.get-prototype-of { "android":"77", "ie":"11", "safari":"5.1" }
+  es.object.is { "ie":"11", "safari":"5.1" }
+  es.object.is-extensible { "android":"77", "ie":"11", "safari":"5.1" }
+  es.object.is-frozen { "android":"77", "ie":"11", "safari":"5.1" }
+  es.object.is-sealed { "android":"77", "ie":"11", "safari":"5.1" }
+  es.object.keys { "android":"77", "ie":"11", "safari":"5.1" }
+  es.object.lookup-getter { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.object.lookup-setter { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.object.prevent-extensions { "android":"77", "ie":"11", "safari":"5.1" }
+  es.object.seal { "android":"77", "ie":"11", "safari":"5.1" }
+  es.object.set-prototype-of { "android":"77", "safari":"5.1" }
+  es.object.to-string { "android":"77", "ie":"11", "safari":"5.1" }
+  es.object.values { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.parse-float { "android":"77", "safari":"5.1" }
+  es.parse-int { "android":"77", "safari":"5.1" }
+  es.promise { "android":"77", "chrome":"49", "edge":"17", "firefox":"68", "ie":"11", "safari":"5.1" }
+  es.promise.finally { "android":"77", "chrome":"49", "edge":"17", "firefox":"68", "ie":"11", "ios":"12.2", "safari":"5.1" }
+  es.reflect.apply { "android":"77", "ie":"11", "safari":"5.1" }
+  es.reflect.construct { "android":"77", "ie":"11", "safari":"5.1" }
+  es.reflect.define-property { "android":"77", "ie":"11", "safari":"5.1" }
+  es.reflect.delete-property { "android":"77", "ie":"11", "safari":"5.1" }
+  es.reflect.get { "android":"77", "ie":"11", "safari":"5.1" }
+  es.reflect.get-own-property-descriptor { "android":"77", "ie":"11", "safari":"5.1" }
+  es.reflect.get-prototype-of { "android":"77", "ie":"11", "safari":"5.1" }
+  es.reflect.has { "android":"77", "ie":"11", "safari":"5.1" }
+  es.reflect.is-extensible { "android":"77", "ie":"11", "safari":"5.1" }
+  es.reflect.own-keys { "android":"77", "ie":"11", "safari":"5.1" }
+  es.reflect.prevent-extensions { "android":"77", "ie":"11", "safari":"5.1" }
+  es.reflect.set { "android":"77", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.reflect.set-prototype-of { "android":"77", "ie":"11", "safari":"5.1" }
+  es.regexp.constructor { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.regexp.exec { "ie":"11", "safari":"5.1" }
+  es.regexp.flags { "android":"77", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.regexp.to-string { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.set { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.string.code-point-at { "android":"77", "ie":"11", "safari":"5.1" }
+  es.string.ends-with { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.string.from-code-point { "android":"77", "ie":"11", "safari":"5.1" }
+  es.string.includes { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.string.iterator { "android":"77", "ie":"11", "safari":"5.1" }
+  es.string.match { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.string.pad-end { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.string.pad-start { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.string.raw { "android":"77", "ie":"11", "safari":"5.1" }
+  es.string.repeat { "android":"77", "ie":"11", "safari":"5.1" }
+  es.string.replace { "android":"77", "chrome":"49", "edge":"17", "firefox":"68", "ie":"11", "ios":"12.2", "safari":"5.1" }
+  es.string.search { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.string.split { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.string.starts-with { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.string.trim { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.string.trim-end { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.string.trim-start { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.string.anchor { "ie":"11", "safari":"5.1" }
+  es.string.big { "ie":"11", "safari":"5.1" }
+  es.string.blink { "ie":"11", "safari":"5.1" }
+  es.string.bold { "ie":"11", "safari":"5.1" }
+  es.string.fixed { "ie":"11", "safari":"5.1" }
+  es.string.fontcolor { "ie":"11", "safari":"5.1" }
+  es.string.fontsize { "ie":"11", "safari":"5.1" }
+  es.string.italics { "ie":"11", "safari":"5.1" }
+  es.string.link { "ie":"11", "safari":"5.1" }
+  es.string.small { "ie":"11", "safari":"5.1" }
+  es.string.strike { "ie":"11", "safari":"5.1" }
+  es.string.sub { "ie":"11", "safari":"5.1" }
+  es.string.sup { "ie":"11", "safari":"5.1" }
+  es.typed-array.float32-array { "android":"77", "chrome":"49", "ie":"11", "ios":"12.2", "safari":"5.1" }
+  es.typed-array.float64-array { "android":"77", "chrome":"49", "ie":"11", "ios":"12.2", "safari":"5.1" }
+  es.typed-array.int8-array { "android":"77", "chrome":"49", "ie":"11", "ios":"12.2", "safari":"5.1" }
+  es.typed-array.int16-array { "android":"77", "chrome":"49", "ie":"11", "ios":"12.2", "safari":"5.1" }
+  es.typed-array.int32-array { "android":"77", "chrome":"49", "ie":"11", "ios":"12.2", "safari":"5.1" }
+  es.typed-array.uint8-array { "android":"77", "chrome":"49", "ie":"11", "ios":"12.2", "safari":"5.1" }
+  es.typed-array.uint8-clamped-array { "android":"77", "chrome":"49", "ie":"11", "ios":"12.2", "safari":"5.1" }
+  es.typed-array.uint16-array { "android":"77", "chrome":"49", "ie":"11", "ios":"12.2", "safari":"5.1" }
+  es.typed-array.uint32-array { "android":"77", "chrome":"49", "ie":"11", "ios":"12.2", "safari":"5.1" }
+  es.typed-array.copy-within { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.every { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.fill { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.filter { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.find { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.find-index { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.for-each { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.from { "android":"77", "chrome":"49", "ie":"11", "ios":"12.2", "safari":"5.1" }
+  es.typed-array.includes { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.index-of { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.iterator { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.join { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.last-index-of { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.map { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.of { "android":"77", "chrome":"49", "ie":"11", "ios":"12.2", "safari":"5.1" }
+  es.typed-array.reduce { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.reduce-right { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.reverse { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.set { "ie":"11", "safari":"5.1" }
+  es.typed-array.slice { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.some { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.sort { "android":"77", "ie":"11", "safari":"5.1" }
+  es.typed-array.subarray { "ie":"11", "safari":"5.1" }
+  es.typed-array.to-locale-string { "android":"77", "edge":"17", "ie":"11", "safari":"5.1" }
+  es.typed-array.to-string { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.weak-map { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  es.weak-set { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  web.dom-collections.for-each { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  web.dom-collections.iterator { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "ios":"12.2", "safari":"5.1" }
+  web.immediate { "android":"77", "chrome":"49", "edge":"17", "firefox":"68", "ios":"12.2", "opera":"63", "safari":"5.1", "samsung":"9.2" }
+  web.queue-microtask { "android":"77", "chrome":"49", "edge":"17", "firefox":"68", "ie":"11", "safari":"5.1", "samsung":"9.2" }
+  web.url { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "ios":"12.2", "safari":"5.1" }
+  web.url.to-json { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "ios":"12.2", "safari":"5.1", "samsung":"9.2" }
+  web.url-search-params { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "ios":"12.2", "safari":"5.1" }

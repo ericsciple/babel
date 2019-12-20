@@ -3,44 +3,51 @@ The `corejs` option only has an effect when the `useBuiltIns` option is not `fal
 @babel/preset-env: `DEBUG` option
 
 Using targets:
-{}
+{
+  "android": "77",
+  "chrome": "49",
+  "edge": "17",
+  "firefox": "68",
+  "ie": "11",
+  "ios": "12.2",
+  "opera": "63",
+  "safari": "5.1",
+  "samsung": "9.2"
+}
 
 Using modules transform: auto
 
 Using plugins:
-  transform-template-literals {}
-  transform-literals {}
-  transform-function-name {}
-  transform-arrow-functions {}
-  transform-block-scoped-functions {}
-  transform-classes {}
-  transform-object-super {}
-  transform-shorthand-properties {}
-  transform-duplicate-keys {}
-  transform-computed-properties {}
-  transform-for-of {}
-  transform-sticky-regex {}
-  transform-dotall-regex {}
-  transform-unicode-regex {}
-  transform-spread {}
-  transform-parameters {}
-  transform-destructuring {}
-  transform-block-scoping {}
-  transform-typeof-symbol {}
-  transform-new-target {}
-  transform-regenerator {}
-  transform-exponentiation-operator {}
-  transform-async-to-generator {}
-  proposal-async-generator-functions {}
-  proposal-object-rest-spread {}
-  proposal-unicode-property-regex {}
-  proposal-json-strings {}
-  proposal-optional-catch-binding {}
-  transform-named-capturing-groups-regex {}
-  transform-member-expression-literals {}
-  transform-property-literals {}
-  transform-reserved-words {}
-  transform-modules-commonjs {}
-  proposal-dynamic-import {}
+  transform-template-literals { "android":"77", "ie":"11", "ios":"12.2", "safari":"5.1" }
+  transform-literals { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-function-name { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  transform-arrow-functions { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-block-scoped-functions { "android":"77", "safari":"5.1" }
+  transform-classes { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-object-super { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-shorthand-properties { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-duplicate-keys { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-computed-properties { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-for-of { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  transform-sticky-regex { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-dotall-regex { "android":"77", "chrome":"49", "edge":"17", "firefox":"68", "ie":"11", "safari":"5.1" }
+  transform-unicode-regex { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  transform-spread { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-parameters { "android":"77", "edge":"17", "ie":"11", "safari":"5.1" }
+  transform-destructuring { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  transform-block-scoping { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-typeof-symbol { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-new-target { "android":"77", "ie":"11", "safari":"5.1" }
+  transform-regenerator { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  transform-exponentiation-operator { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  transform-async-to-generator { "android":"77", "chrome":"49", "ie":"11", "safari":"5.1" }
+  proposal-async-generator-functions { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  proposal-object-rest-spread { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  proposal-unicode-property-regex { "android":"77", "chrome":"49", "edge":"17", "firefox":"68", "ie":"11", "safari":"5.1" }
+  proposal-json-strings { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  proposal-optional-catch-binding { "android":"77", "chrome":"49", "edge":"17", "ie":"11", "safari":"5.1" }
+  transform-named-capturing-groups-regex { "android":"77", "chrome":"49", "edge":"17", "firefox":"68", "ie":"11", "safari":"5.1" }
+  transform-modules-commonjs { "android":"77", "chrome":"49", "edge":"17", "firefox":"68", "ie":"11", "ios":"12.2", "opera":"63", "safari":"5.1", "samsung":"9.2" }
+  proposal-dynamic-import { "android":"77", "chrome":"49", "edge":"17", "firefox":"68", "ie":"11", "ios":"12.2", "opera":"63", "safari":"5.1", "samsung":"9.2" }
 
 Using polyfills: No polyfills were added, since the `useBuiltIns` option was not set.

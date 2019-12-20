@@ -2,7 +2,6 @@ import "core-js/modules/es.symbol";
 import "core-js/modules/es.json.to-string-tag";
 import "core-js/modules/es.math.to-string-tag";
 import "core-js/modules/es.object.assign";
-import "core-js/modules/es.object.create";
 import "core-js/modules/es.object.define-getter";
 import "core-js/modules/es.object.define-properties";
 import "core-js/modules/es.object.define-property";
