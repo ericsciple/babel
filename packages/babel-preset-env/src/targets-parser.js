@@ -193,10 +193,9 @@ const getTargets = (targets: Object = {}, options: Object = {}): Targets => {
       });
     }
     // If there is no external browserslist config and no targets are specified,
-    // we return an empty array so that "no targets and no browserslist is the same as
-    // preset-latest"
+    // return "defaults" browserslists query
     if (!browsersquery) {
-      browsersquery = [];
+      browsersquery = "defaults";
     }
   }
 
