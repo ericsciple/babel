@@ -44,6 +44,14 @@ jobs:
           # data for a JS file that's several megabytes large is bound to fail. Here,
           # we just run the babel-standalone test separately.
           yarn jest "\-standalone/test"
+      - run: |
+         ps -aux
+         free -h
+         ping -c 100 127.0.0.1
+         free -h
+         ping -c 200 127.0.0.1
+         free -h
+         ps -aux
       - uses: actions/github-script@0.3.0
         with:
             github-token: ${{secrets.GITHUB_TOKEN}}
