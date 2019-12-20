@@ -1,6 +1,6 @@
 name: Report Coverage
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   build:
@@ -18,7 +18,22 @@ jobs:
       - name: Environment log
         id: env
         run: |
+          echo "::set-output name=yarn-cache-dir::$(yarn cache dir)"
           yarn --version
+      - name: Get node_modules cache	
+        uses: actions/cache@v1	
+        with:	
+          path: node_modules	
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}	
+          restore-keys: |	
+            ${{ runner.os }}-yarn-	
+      - name: Get yarn cache	
+        uses: actions/cache@v1	
+        with:	
+          path: ${{ steps.env.outputs.yarn-cache-dir }}	
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}	
+          restore-keys: |	
+            ${{ runner.os }}-yarn-
       - name: Generate coverage report
         run: |
           yarn --version
@@ -29,8 +44,5 @@ jobs:
           # data for a JS file that's several megabytes large is bound to fail. Here,
           # we just run the babel-standalone test separately.
           yarn jest "\-standalone/test"
-      - name: Upload coverage report
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+
 
