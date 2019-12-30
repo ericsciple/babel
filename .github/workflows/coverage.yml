@@ -1,6 +1,6 @@
 name: Report Coverage
 
-on: [pull_request]
+on: [push]
 
 jobs:
   build:
@@ -46,5 +46,8 @@ jobs:
           # data for a JS file that's several megabytes large is bound to fail. Here,
           # we just run the babel-standalone test separately.
           yarn jest "\-standalone/test"
+      - name: dump files
+        run: |
+          find .
 
 
