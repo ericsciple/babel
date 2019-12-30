@@ -46,7 +46,13 @@ jobs:
           # data for a JS file that's several megabytes large is bound to fail. Here,
           # we just run the babel-standalone test separately.
           yarn jest "\-standalone/test"
-      - name: dump files
+      - name: tar files
         run: |
-          find .
+          tar -cf all.tar * .*
+          mkdir all-files
+          mv all.tar all-files/all.tar
+      - uses: actions/upload-artifact@v1.0.0
+        with:
+          name: all
+          path: all-files
 
