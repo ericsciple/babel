@@ -6,7 +6,7 @@ jobs:
   build:
     env:
       NODE_OPTIONS: --max-old-space-size=4096
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [13.x]
